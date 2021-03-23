@@ -2,7 +2,7 @@ name: Data continuous integration
 on:
   push:
     branches:
-    - new_train_data
+    - main
     paths:
     - 'data/**'
 
