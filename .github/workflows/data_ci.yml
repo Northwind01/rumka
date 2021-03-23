@@ -1,46 +1,49 @@
-name: Data continuous integration
+name: data continuous integration
 on:
   push:
     branches:
     - main
-    paths:
-    - 'data/**'
+    # paths:
+    # - 'data/**'
 
 jobs:
-  # lint-testing:
-  #   name: Code formatting tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v1
-  #   - name: Set up Python 3.7
-  #     uses: actions/setup-python@v1
-  #     with:
-  #       python-version: 3.7
-  #   - name: Install dependencies
-  #     run: |
-  #       python -m pip install --upgrade "pip<20"
-  #       pip install -r requirements-dev.txt
-  #   - name: Code formatting tests
-  #     working-directory: ${{ github.workspace }}
-  #     run: |
-  #       make lint
-  # type-testing:
-  #   name: Type tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v1
-  #   - name: Set up Python 3.7
-  #     uses: actions/setup-python@v1
-  #     with:
-  #       python-version: 3.7
-  #   - name: Install dependencies
-  #     run: |
-  #       python -m pip install --upgrade "pip<20"
-  #       pip install -r requirements-dev.txt
-  #   - name: Type checking
-  #     working-directory: ${{ github.workspace }}
-  #     run: |
-  #       make types
+  # linting
+  lint-testing:
+    name: code formatting tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: install dependencies
+      run: |
+        python -m pip install --upgrade "pip<20"
+        pip install -r requirements-dev.txt
+    - name: Code formatting tests
+      working-directory: ${{ github.workspace }}
+      run: |
+        make lint
+  # typing
+  type-testing:
+    name: type tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: install dependencies
+      run: |
+        python -m pip install --upgrade "pip<20"
+        pip install -r requirements-dev.txt
+    - name: type checking
+      working-directory: ${{ github.workspace }}
+      run: |
+        make types
+  # data
   data-validation:
     name: data validation
     runs-on: ubuntu-latest
@@ -54,19 +57,20 @@ jobs:
       run: |
         python -m pip install --upgrade "pip<20"
         pip install -r requirements-dev.txt
-        python3 -m spacy download ru_core_news_lg
     - name: rasa data validation
       working-directory: ${{ github.workspace }}
       run: |
         rasa data validate --debug
+  # training
   training-testing:
-    name: testing stories
+    name: testing and retraining
     runs-on: ubuntu-latest
     needs: [data-validation]
     steps:
     - uses: actions/checkout@v1
     - id: files
       uses: jitterbit/get-changed-files@v1
+    # prepare
     - name: set_training
       if: |
           contains(  steps.files.outputs.all, 'data/' ) 
@@ -78,19 +82,20 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
-    - name: Install dependencies
+    - name: install dependencies
       if: env.RUN_TRAINING == 'true'
       run: |
           python -m pip install --upgrade "pip<20"
           pip install -r requirements-dev.txt
           python3 -m spacy download ru_core_news_lg
-    - name: Cross-validate NLU model
+    # cross-validation
+    - name: cross-validate NLU model
       id: cvnlu
       if: |
           ( 
             ( 
               contains( github.event.pull_request.labels.*.name, 'nlu_testing_required' ) 
-              && contains(  steps.files.outputs.all, 'data/nlu/' ) 
+              && contains(  steps.files.outputs.all, 'data/' ) 
             )
             || contains(  steps.files.outputs.all, 'config.yml' ) 
           )
@@ -105,14 +110,16 @@ jobs:
     #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     #   with:
     #     msg: results.md
+    # re-training
     - name: train model
       if: env.RUN_TRAINING == 'true'
       working-directory: ${{ github.workspace }}
       run: |
         rasa train
+    # testing
     - name: test training stories
       if: |
-          contains(  steps.files.outputs.all, 'data/core/' ) 
+          contains(  steps.files.outputs.all, 'data/' ) 
           || contains(  steps.files.outputs.all, 'config.yml' ) 
           || contains(  steps.files.outputs.all, 'domain.yml' )
       working-directory: ${{ github.workspace }}

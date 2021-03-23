@@ -11,6 +11,10 @@ help:
 	@echo "    types"
 	@echo "        Check for type errors using pytype."
 
+retr:
+		rasa train
+		rasa test --stories test/test_stories.md
+
 install_dev:
 		pip3 install -U pip
 		pip3 install -r requirements.txt
@@ -23,8 +27,7 @@ install_dev:
 		#python3 -m spacy download ru_core_news_lg
 		#unzip ngrok-stable-darwin-amd64.zip
 		#./ngrok authtoken <your_auth_token>
-		#./ngrok http 5002
-		
+		#./ngrok http 5002		
 
 clean:
 		find . -name '*.pyc' -exec rm -f {} +

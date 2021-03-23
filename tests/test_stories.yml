@@ -53,7 +53,7 @@ stories:
   - action: utter_cheer_up
   - action: utter_did_that_help
   - user: |
-      не очень
+      нет
     intent: deny
   - action: utter_goodbye
 
