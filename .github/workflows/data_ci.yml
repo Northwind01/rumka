@@ -95,14 +95,14 @@ jobs:
       run: |  
           rasa test nlu -f 3 --cross-validation
           python .github/workflows/format_results.py
-    - name: post cross-val results to PR
-      if: steps.cvnlu.outcome == 'success'
-      uses: amn41/comment-on-pr@comment-file-contents
-      continue-on-error: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        msg: results.md
+    # - name: post cross-val results to PR
+    #   if: steps.cvnlu.outcome == 'success'
+    #   uses: amn41/comment-on-pr@comment-file-contents
+    #   continue-on-error: true
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     msg: results.md
     - name: Train model
       if: env.RUN_TRAINING == 'true'
       working-directory: ${{ github.workspace }}
