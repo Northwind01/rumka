@@ -86,3 +86,21 @@ stories:
       ты бот?
     intent: bot_challenge
   - action: utter_iamabot
+
+- story: other language
+  steps:
+  - user: |
+      guten abend
+    intent: not_target_language
+  - action: utter_speak_russian
+
+- story: acquaintance
+  steps:
+  - user: |
+      как тебя зовут?
+    intent: about/ask_name
+  - action: utter_about/ask_name
+  - user: |
+      какой цвет тебе нравится?
+    intent: about/ask_color
+  - action: utter_about/ask_color

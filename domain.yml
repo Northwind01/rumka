@@ -1,9 +1,12 @@
 version: '2.0'
+
 config:
   store_entities_as_slots: true
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+
 intents:
 - greet:
     use_entities: true
@@ -19,22 +22,58 @@ intents:
     use_entities: true
 - bot_challenge:
     use_entities: true
-entities: []
-slots: {}
+- not_target_language:
+    use_entities: true
+- about:
+    use_entities: true
+- chitchat:
+    use_entities: true
+- inform:
+    use_entities: true
+
+entities:
+- PERSON
+- color
+- '"name"'
+- '"color"'
+
+slots:
+  name:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  color:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+
 responses:
   utter_greet:
-  - text: Привет ;) Как дела?
+  - text: привет ;) Как дела?
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
-    text: 'Вот хочу тебя порадовать:'
+    text: 'вот хочу тебя порадовать:'
   utter_did_that_help:
-  - text: Ну как?
+  - text: ну как?
   utter_happy:
-  - text: Отлично!
+  - text: отлично!
   utter_goodbye:
-  - text: Покедова
+  - text: покедова
   utter_iamabot:
-  - text: Я Харик ;) умный ботик
+  - text: я Харик ;) умный ботик
+  utter_speak_russian:
+  - text: пока я говорю только по русски ;)
+  utter_chitchat/ask_joke:
+  - text: — вчера долго пыталась объяснить бабуле, что работаю программистом   — удалось?   — короче, сошлись на том, что чиню телевизоры и развожу мышей
+  utter_chitchat/ask_weather:
+  - text: у меня всегда светит солнышко
+  utter_about/ask_name:
+  - text: Наташа ещё не решила как меня зовут
+  utter_about/ask_color:
+  - text: мой любимый цвет - розовый ;)
+
 actions: []
 forms: {}
 e2e_actions: []

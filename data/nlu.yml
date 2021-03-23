@@ -1,6 +1,14 @@
 version: "2.0"
 
 nlu:
+- intent: inform
+  examples: |
+    - меня зовут [Катя]("name")
+    - моё имя [Наташа]("name")
+    - [голубой]("color")
+    - мне нравится [красный]("color")
+    - [жёлтый]("color") мой любимый
+
 - intent: greet
   examples: |
     - приветик
@@ -63,3 +71,10 @@ nlu:
     - ты живой?
     - это робот?
     - с кем я говорю?
+
+- intent: not_target_language
+  examples: |
+    - hi there
+    - sprichst du deustch?
+    - english
+    - hallo

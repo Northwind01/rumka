@@ -19,9 +19,15 @@ pipeline:
   #   alias: before diet
   - name: DIETClassifier
     epochs: 100
+  - name: "SpacyEntityExtractor"
+    dimensions: ["PERSON"]
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100
+    retrieval_intent: chitchat
+  - name: ResponseSelector
+    epochs: 100
+    retrieval_intent: about
   - name: FallbackClassifier
     threshold: 0.3
     ambiguity_threshold: 0.1

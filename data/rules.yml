@@ -1,13 +1,28 @@
-version: "2.4"
+version: "2.0"
 
 rules:
 
-- rule: Say goodbye anytime the user says goodbye
+- rule: say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye
   - action: utter_goodbye
 
-- rule: Say 'I am a bot' anytime the user challenges
+- rule: say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule: say 'Пока я говорю только по русски ;)' anytime the user does not speak Russian
+  steps:
+  - intent: not_target_language
+  - action: utter_speak_russian
+
+- rule: respond to chitchat
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+
+- rule: respond to about
+  steps:
+  - intent: about
+  - action: utter_about

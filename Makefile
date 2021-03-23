@@ -12,6 +12,7 @@ help:
 	@echo "        Check for type errors using pytype."
 
 retr:
+		rasa data validate --fail-on-warnings
 		rasa train
 		rasa test --stories test/test_stories.md
 
