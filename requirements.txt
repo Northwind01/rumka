@@ -1,4 +1,4 @@
 rasa[spacy]==2.4.0
 spacy==3.0.0
--r actions/requirements-actions.txt
+#-r actions/requirements-actions.txt
 pytablewriter
