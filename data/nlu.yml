@@ -52,6 +52,7 @@ nlu:
     - ужасно
     - мне грустно
     - не очень
+    - плохо
 
 - intent: bot_challenge
   examples: |
