@@ -18,10 +18,13 @@ install_dev:
 		#rasa init
 		#export LC_ALL=en_US.UTF-8
 		#export LANG=en_US.UTF-8
-		pip3 install rasa[spacy]
-		pip3 install spacy==3.0.0
-		python3 -m spacy download ru_core_news_lg
-		#python3 -m spacy link ru_core_news_lg ru
+		#pip3 install rasa[spacy]
+		#pip3 install spacy==3.0.0
+		#python3 -m spacy download ru_core_news_lg
+		#unzip ngrok-stable-darwin-amd64.zip
+		#./ngrok authtoken <your_auth_token>
+		#./ngrok http 5002
+		
 
 clean:
 		find . -name '*.pyc' -exec rm -f {} +
