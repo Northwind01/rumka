@@ -5,6 +5,8 @@ pipeline:
   - name: "SpacyNLP"
     model: "ru_core_news_lg"
     case_sensitive: False
+  # - name: custom_components.printer.Printer 
+  #   alias: after spacy
   - name: WhitespaceTokenizer
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
@@ -13,6 +15,8 @@ pipeline:
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
+  # - name: custom_components.printer.Printer 
+  #   alias: before diet
   - name: DIETClassifier
     epochs: 100
   - name: EntitySynonymMapper
