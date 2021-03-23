@@ -42,6 +42,8 @@ nlu:
     - волшебно
     - всё ок
     - ок
+    - да ничего
+    - живём!
 
 - intent: mood_unhappy
   examples: |
